@@ -1,0 +1,17 @@
+{
+  "name": "vue-simple-docs",
+  "version": "1.0.0",
+  "description": "Create your project's documentation in few simple steps.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "vue",
+    "documentation",
+    "docs",
+    "generate"
+  ],
+  "author": "Willo0ow",
+  "license": "MIT"
+}
