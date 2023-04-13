@@ -7,7 +7,7 @@
         <p>This product is sold in {{ stores }} stores.</p>
         <p v-if="daysToSale > 0">The sale starts in {{ daysToSale }} days.</p>
         <p v-else-if="daysToSale === 0">The sale starts today!</p>
-        <p v-else>The sale has already started {{ -daysToSale }} days ago.</p>
+        <p v-else>The sale has already started {{ daysToSale }} days ago.</p>
         <p>
           <v-btn size="x-small" @click="changeQuantity(false)">-</v-btn>
           <span class="mx-3">{{ quantity }}</span>

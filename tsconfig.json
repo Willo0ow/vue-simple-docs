@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "target": "es2017",
+      "module": "esnext",
+      "moduleResolution": "node",
+      "esModuleInterop": true,
+      "outDir": "./dist",
+      "declaration": true,
+      "allowJs": true,
+      "resolveJsonModule": true,
+      "lib": ["es2017", "dom"]
+    },
+    "include": ["lib/**/*.ts", "lib/**/*.mjs", "index.ts"]
+  }
+  

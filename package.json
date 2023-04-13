@@ -2,9 +2,14 @@
   "name": "vue-simple-docs",
   "version": "1.0.0",
   "description": "Create your project's documentation in few simple steps.",
-  "main": "index.js",
   "scripts": {
-    "test": "test"
+    "dev": "node ./dist/cjs/index.js && npm run generate && cd docs && npm install",
+    "generate": "node ./dist/cjs/lib/generate.js && prettier --write docs/src/generated",
+    "clean": "rm -rf ./dist && mkdir -p dist",
+    "build": "npm run clean && npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc -p ./tsconfig.esm.json && mv dist/esm/index.js dist/esm/index.mjs",
+    "build:cjs": "tsc -p ./tsconfig.cjs.json",
+    "prepack": "npm run build"
   },
   "keywords": [
     "vue",
@@ -13,5 +18,32 @@
     "generate"
   ],
   "author": "Willo0ow",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "typescript": "^5.0.3"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/types/index.d.ts",
+        "default": "./dist/esm/index.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/types/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    }
+  },
+  "types": "./dist/cjs/types/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "files": [
+    "lib/**/*",
+    "index.ts"
+  ],
+  "dependencies": {
+    "@types/fs-extra": "^11.0.1",
+    "fs-extra": "^11.1.1",
+    "prettier": "^2.8.4"
+  }
 }
