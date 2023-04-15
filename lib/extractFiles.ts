@@ -2,11 +2,13 @@ import fs from 'fs'
 import path from 'path'
 import config from '../docs.config'
 import { cwd } from 'process'
-import {generateComponentData} from "./extractComponents"
+import { generateComponentData } from './extractComponents'
 
+const baseDir = cwd()
 interface FileObject {
   name: string
-  type: 'file'
+  type: 'file',
+  extension: string
 }
 
 interface DirectoryObject {
@@ -28,7 +30,8 @@ const createDirectoryObj = (dirPath: string): DirectoryObject => {
 const createFileObj = (filePath: string): FileObject => {
   return {
     name: path.basename(filePath),
-    type: 'file'
+    type: 'file',
+    extension: path.extname(filePath)
   }
 }
 
@@ -44,12 +47,12 @@ const readDirectory = (dirPath: string, parent: DirectoryObject | DirectoryObjec
         readDirectory(filePath, dirObj)
       } else if (stats.isFile()) {
         dirObj.children.push(createFileObj(filePath))
-        if(path.extname(file) === ".vue"){
-          generateComponentData(file);
+        if (path.extname(file) === '.vue') {
+          generateComponentData(file)
         }
       }
     })
-    if(Array.isArray(parent)){
+    if (Array.isArray(parent)) {
       parent.push(dirObj)
     } else {
       parent.children.push(dirObj)
@@ -60,28 +63,30 @@ const readDirectory = (dirPath: string, parent: DirectoryObject | DirectoryObjec
   }
 }
 
+const saveIndexFile = (indexContent: DirectoryObject) => {
+  const indexOutputPath = path.join(baseDir, config.outputDir, 'src', 'generated', `index.ts`)
+  const indexData = `const components = ${JSON.stringify(indexContent)}; \n export default components;`
+
+  if (!fs.existsSync(path.dirname(indexOutputPath))) {
+    fs.mkdirSync(path.dirname(indexOutputPath), { recursive: true })
+  }
+
+  fs.writeFile(indexOutputPath, indexData, (err) => {
+    if (err) {
+      console.error(err)
+      return
+    }
+    console.log(`Generated index file.`)
+  })
+
+}
+
 export const extracFiles = () => {
-  const baseDir = cwd()
   const sourceDir = path.join(baseDir, config.sourceDir)
-
-  const sourceStructure: DirectoryObject[] = [];
-
+  const sourceStructure: DirectoryObject[] = []
   readDirectory(sourceDir, sourceStructure)
 
-  if(sourceStructure.length){
-    const indexOutputPath = path.join(baseDir, config.outputDir, 'src', 'generated', `index.ts`)
-    const indexData = `const components = ${JSON.stringify(sourceStructure[0])}; \n export default components;`
-  
-    if (!fs.existsSync(path.dirname(indexOutputPath))) {
-      fs.mkdirSync(path.dirname(indexOutputPath), { recursive: true })
-    }
-  
-    fs.writeFile(indexOutputPath, indexData, (err) => {
-      if (err) {
-        console.error(err)
-        return
-      }
-      console.log(`Generated index file.`)
-    })
+  if (sourceStructure.length) {
+    saveIndexFile(sourceStructure[0])
   }
 }

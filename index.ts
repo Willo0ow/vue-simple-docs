@@ -2,7 +2,7 @@ import fs from 'fs';
 import fse from 'fs-extra';
 import path from 'path';
 
-export function copyVueApp() {
+function copyVueApp() {
   const sourceDir = path.join(process.cwd(), "template");
   const destinationDir = path.join(process.cwd(), 'docs');
 
