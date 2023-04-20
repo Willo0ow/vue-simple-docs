@@ -5,6 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import componentList from '@/generated/index'
-import TreeItem from '@/components/treeList/TreeItem.vue'
+import componentList from '@/generated/index';
+import TreeItem from '@/components/treeList/TreeItem.vue';
 </script>

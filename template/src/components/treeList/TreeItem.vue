@@ -1,14 +1,15 @@
 <template>
   <v-list-item>
-    <v-list-item-title
-      ><router-link
+    <v-list-item-title>
+      <router-link
         :to="{
           name: 'ComponentDetails',
           params: { name: item.name },
           query: { prefix: item.prefix }
         }"
-        >{{ item.name }}</router-link
       >
+        {{ item.name }}
+      </router-link>
     </v-list-item-title>
     <v-list-item-subtitle v-if="item?.children?.length">
       <v-list lines="two">
@@ -23,12 +24,12 @@
 </template>
 
 <script setup lang="ts">
-import { type FileSystemObject } from '@/types/generated'
+import { type FileSystemObject } from '@/types/generated';
 /**
  * @vueProp {number} [param=0] - number of params
  */
 
 defineProps<{
-  item: FileSystemObject
-}>()
+  item: FileSystemObject;
+}>();
 </script>
