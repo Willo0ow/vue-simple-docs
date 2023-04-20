@@ -1,2 +1,2 @@
-import { generateComponentsData } from "./extractComponents";
-generateComponentsData();
+import {extracFiles} from "./extractFiles";
+extracFiles();

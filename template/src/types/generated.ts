@@ -34,3 +34,18 @@ export type ComponentDetails = {
     type?: string
   }
   
+
+  type FileObject = {
+    name: string
+    type: 'file'
+    extension: string
+    prefix: string
+  }
+  
+  type DirectoryObject = {
+    name: string
+    type: 'folder'
+    children: FileSystemObject[]
+  }
+  
+  export type FileSystemObject = DirectoryObject | FileObject
