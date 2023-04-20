@@ -45,11 +45,13 @@
 <script lang="ts">
 import { ref, onMounted } from 'vue'
 import type { ComponentDetails } from 'docs/types'
+
 import ComponentProps from '@/components/ComponentProps.vue'
 import ComponentEmits from '@/components/ComponentEmits.vue'
 import ComponentComputed from '@/components/ComponentComputed.vue'
 import ComponentData from '@/components/ComponentData.vue'
 import ComponentMethods from '@/components/ComponentMethods.vue'
+
 export default {
   name: 'ComponentDetails',
   components: {
@@ -63,15 +65,19 @@ export default {
     name: {
       type: String,
       required: true
+    },
+    prefix: {
+      type: String,
+      default: ''
     }
   },
   setup(props) {
     const componentDetails = ref<ComponentDetails | null>(null)
     onMounted(async () => {
       try {
-        const componentDetailsFile = await import(`../generated/${props.name}.ts`).then(
-          (module) => module?.default
-        )
+        const componentDetailsFile = await import(
+          `../generated/${props.prefix}${props.name}.ts`
+        ).then((module) => module?.default)
         componentDetails.value = componentDetailsFile
       } catch (error) {
         console.error(error)
