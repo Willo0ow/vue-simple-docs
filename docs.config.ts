@@ -1,4 +1,4 @@
 export default {
-    sourceDir: 'template/src/components',
-    outputDir: 'template',
-}
+  sourceDir: 'template/src/components',
+  outputDir: 'docs'
+};

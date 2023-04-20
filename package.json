@@ -3,18 +3,12 @@
   "version": "1.0.0",
   "description": "Create your project's documentation in few simple steps.",
   "scripts": {
-    "dev": "node ./dist/cjs/index.js && npm run generate && cd docs && npm install",
-    "generate": "npm run clean:generated && node ./dist/cjs/lib/generate.js && prettier --write template/src/generated",
     "clean": "rm -rf ./dist && mkdir -p dist",
-    "clean:generated": "rm -rf ./template/src/generated/*",
-    "build": "npm run clean && npm run build:esm && npm run build:cjs",
-    "build:esm": "tsc -p ./tsconfig.esm.json && mv dist/esm/index.js dist/esm/index.mjs",
-    "build:cjs": "tsc -p ./tsconfig.cjs.json",
-    "prepack": "npm run build",
-    "build2": "tsup --minify --format cjs,esm",
-    "dev2": "tsup --minify --format cjs,esm --watch",
-    "generate2": "npm run clean:generated && node ./dist/generateData.js && prettier --write template/src/generated",
-    "delete-dir": "node ./dist/deleteDirectoryContents.js"
+    "build": "npm run clean && tsup --minify --format cjs,esm",
+    "dev": "tsup --minify --format cjs,esm --watch",
+    "clean:generated": "node ./dist/deleteGeneratedData.js",
+    "generate:data": "npm run clean:generated && node ./dist/generateData.js && prettier --write template/src/generated",
+    "generate:docsApp": "node ./dist/index.js && npm run generate:data && cd docs && npm install"
   },
   "keywords": [
     "vue",
