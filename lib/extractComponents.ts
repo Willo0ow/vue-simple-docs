@@ -30,8 +30,10 @@ function extractVueComponentElemets(documentationTagsSection: string) {
   }
 }
 const baseDir = cwd()
-export const generateComponentData = (vueFile: string) => {
-  const filePath = path.join(baseDir, config.sourceDir, vueFile)
+export const generateComponentData = (vueFile: string, saveDirectory: string) => {
+  
+  
+  const filePath = vueFile
   try {
     const fileContent = fs.readFileSync(filePath, 'utf-8')
 
@@ -47,10 +49,10 @@ export const generateComponentData = (vueFile: string) => {
       ...elements
     }
 
-    const outputContent = `import type {ComponentDetails} from "../types/generated";\n const componentDetails: ComponentDetails = ${JSON.stringify(
+    const outputContent = `import type {ComponentDetails} from "@/types/generated";\n const componentDetails: ComponentDetails = ${JSON.stringify(
       vueComponentDetails
     )}; \n export default componentDetails;`
-    const outputPath = path.join(baseDir, config.outputDir, 'src', 'generated', `${fileName}.ts`)
+    const outputPath = saveDirectory
 
     if (!fs.existsSync(path.dirname(outputPath))) {
       fs.mkdirSync(path.dirname(outputPath), { recursive: true })
@@ -60,5 +62,9 @@ export const generateComponentData = (vueFile: string) => {
     console.log(`Generated file for ${fileName}.`)
   } catch (e) {
     console.error(e)
+    console.log(vueFile);
+    console.log(filePath);
+    
+    
   }
 }

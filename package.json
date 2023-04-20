@@ -4,8 +4,9 @@
   "description": "Create your project's documentation in few simple steps.",
   "scripts": {
     "dev": "node ./dist/cjs/index.js && npm run generate && cd docs && npm install",
-    "generate": "node ./dist/cjs/lib/generate.js && prettier --write docs/src/generated",
+    "generate": "npm run clean:generated && node ./dist/cjs/lib/generate.js && prettier --write template/src/generated",
     "clean": "rm -rf ./dist && mkdir -p dist",
+    "clean:generated": "rm -rf ./template/src/generated/*",
     "build": "npm run clean && npm run build:esm && npm run build:cjs",
     "build:esm": "tsc -p ./tsconfig.esm.json && mv dist/esm/index.js dist/esm/index.mjs",
     "build:cjs": "tsc -p ./tsconfig.cjs.json",

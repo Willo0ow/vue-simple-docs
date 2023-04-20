@@ -5,10 +5,12 @@ import { cwd } from 'process'
 import { generateComponentData } from './extractComponents'
 
 const baseDir = cwd()
+const sourceDir = path.join(baseDir, config.sourceDir)
 interface FileObject {
   name: string
-  type: 'file',
+  type: 'file'
   extension: string
+  prefix: string
 }
 
 interface DirectoryObject {
@@ -19,19 +21,26 @@ interface DirectoryObject {
 
 type FileSystemObject = DirectoryObject | FileObject
 
+const getPathPrefix = (elementDir: string) => {
+  const relativePath = elementDir.replace(sourceDir, '')
+  const parsedPath = path.parse(relativePath);
+  return parsedPath.dir.split('/').reduce((prefix, part)=>prefix += part || '', '')
+}
+
 const createDirectoryObj = (dirPath: string): DirectoryObject => {
   return {
     name: path.basename(dirPath),
     type: 'folder',
-    children: []
+    children: [],
   }
 }
 
 const createFileObj = (filePath: string): FileObject => {
   return {
-    name: path.basename(filePath),
+    name: path.basename(filePath, path.extname(filePath)),
     type: 'file',
-    extension: path.extname(filePath)
+    extension: path.extname(filePath),
+    prefix: getPathPrefix(filePath)
   }
 }
 
@@ -46,9 +55,11 @@ const readDirectory = (dirPath: string, parent: DirectoryObject | DirectoryObjec
       if (stats.isDirectory()) {
         readDirectory(filePath, dirObj)
       } else if (stats.isFile()) {
+        const fileObj = createFileObj(filePath)
         dirObj.children.push(createFileObj(filePath))
         if (path.extname(file) === '.vue') {
-          generateComponentData(file)
+          const saveDirectory = path.join(baseDir, config.outputDir, 'src', 'generated', `${fileObj.prefix}${fileObj.name}.ts`)
+          generateComponentData(filePath, saveDirectory)
         }
       }
     })
@@ -82,7 +93,6 @@ const saveIndexFile = (indexContent: DirectoryObject) => {
 }
 
 export const extracFiles = () => {
-  const sourceDir = path.join(baseDir, config.sourceDir)
   const sourceStructure: DirectoryObject[] = []
   readDirectory(sourceDir, sourceStructure)
 
