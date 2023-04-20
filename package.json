@@ -7,7 +7,7 @@
     "build": "npm run clean && tsup --minify --format cjs,esm",
     "dev": "tsup --minify --format cjs,esm --watch",
     "clean:generated": "node ./dist/deleteGeneratedData.js",
-    "generate:data": "npm run clean:generated && node ./dist/generateData.js && prettier --write template/src/generated",
+    "generate:data": "npm run clean:generated && node ./dist/generateData.js",
     "generate:docsApp": "node ./dist/index.js && npm run generate:data && cd docs && npm install"
   },
   "keywords": [
@@ -20,6 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^18.15.11",
+    "@types/prettier": "^2.7.2",
     "tsup": "^6.7.0",
     "typescript": "^5.0.3"
   },

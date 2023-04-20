@@ -3,6 +3,7 @@ import path from 'path';
 import config from '../docs.config';
 import { cwd } from 'process';
 import { generateComponentData } from './extractComponents';
+import { formatFile } from './formatWithPrettier';
 
 const baseDir = cwd();
 const sourceDir = path.join(baseDir, config.sourceDir);
@@ -89,14 +90,12 @@ const saveIndexFile = (indexContent: DirectoryObject) => {
   if (!fs.existsSync(path.dirname(indexOutputPath))) {
     fs.mkdirSync(path.dirname(indexOutputPath), { recursive: true });
   }
-
-  fs.writeFile(indexOutputPath, indexData, (err) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    console.log(`Generated index file.`);
-  });
+  try {
+    fs.writeFileSync(indexOutputPath, indexData);
+    formatFile(indexOutputPath, indexData);
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 export const extracFiles = () => {

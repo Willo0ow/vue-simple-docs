@@ -12,6 +12,8 @@ import extractDataLikeTags, { LineTypes } from './extractDataLikeTags';
 import extractMethods from './extractMethods';
 import extractEmits from './extractEmits';
 
+import { formatFile } from './formatWithPrettier';
+
 function extractVueComponentElemets(documentationTagsSection: string) {
   const tagLines = formatDocumentationTagsLines(documentationTagsSection);
   const vuePropLines = tagLines.filter((line) => line.includes('@vueProp'));
@@ -56,6 +58,7 @@ export const generateComponentData = (vueFile: string, saveDirectory: string) =>
     }
 
     fs.writeFileSync(outputPath, outputContent);
+    formatFile(outputPath, outputContent);
     console.log(`Generated file for ${fileName}.`);
   } catch (e) {
     console.error(e);
