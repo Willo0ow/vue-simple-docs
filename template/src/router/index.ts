@@ -18,7 +18,7 @@ const router = createRouter({
       path: '/component/:name',
       name: 'ComponentDetails',
       component: () => import('../views/ComponentDetails.vue'),
-      props: true
+      props: route => ({ prefix: route.query.prefix, name: route.params.name })
     }
   ]
 })
