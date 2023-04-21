@@ -18,30 +18,29 @@
   ],
   "author": "Willo0ow",
   "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/cjs/types/index.d.ts",
+  "files": [
+    "dist",
+    "lib",
+    "template",
+    "package.json",
+    "README.md"
+  ],
   "devDependencies": {
     "@types/node": "^18.15.11",
     "@types/prettier": "^2.7.2",
     "tsup": "^6.7.0",
     "typescript": "^5.0.3"
   },
-  "exports": {
-    ".": {
-      "import": {
-        "types": "./dist/esm/types/index.d.ts",
-        "default": "./dist/esm/index.mjs"
-      },
-      "require": {
-        "types": "./dist/cjs/types/index.d.ts",
-        "default": "./dist/cjs/index.js"
-      }
-    }
-  },
-  "types": "./dist/cjs/types/index.d.ts",
-  "main": "./dist/cjs/index.js",
-  "files": [
-    "lib/**/*",
-    "index.ts"
-  ],
   "dependencies": {
     "@types/fs-extra": "^11.0.1",
     "fs-extra": "^11.1.1",
