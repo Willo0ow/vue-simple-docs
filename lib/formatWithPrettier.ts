@@ -17,4 +17,3 @@ export const formatFile = (filePath: string, fileContent: string) => {
   });
   fs.writeFileSync(filePath, formattedContent, 'utf8');
 };
-ž;

@@ -1,5 +1,8 @@
-import config from "../docs.config";
-import path from "path";
+import path from 'path';
+import loadConfig from './loadConfig';
+import { deleteDirectoryContents } from './deleteDirectoryContents';
 
-import { deleteDirectoryContents } from "./deleteDirectoryContents";
-deleteDirectoryContents(path.join(config.outputDir, 'src', 'generated'));
+(async () => {
+  const config = await loadConfig();
+  deleteDirectoryContents(path.join(config.outputDir, 'src', 'generated'));
+})();

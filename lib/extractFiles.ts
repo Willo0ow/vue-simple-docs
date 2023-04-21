@@ -1,12 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import config from '../docs.config';
 import { cwd } from 'process';
 import { generateComponentData } from './extractComponents';
 import { formatFile } from './formatWithPrettier';
 
 const baseDir = cwd();
-const sourceDir = path.join(baseDir, config.sourceDir);
+
 interface FileObject {
   name: string;
   type: 'file';
@@ -22,7 +21,7 @@ interface DirectoryObject {
 
 type FileSystemObject = DirectoryObject | FileObject;
 
-const getPathPrefix = (elementDir: string) => {
+const getPathPrefix = (elementDir: string, sourceDir: string) => {
   const relativePath = elementDir.replace(sourceDir, '');
   const parsedPath = path.parse(relativePath);
   return parsedPath.dir.split('/').reduce((prefix, part) => (prefix += part || ''), '');
@@ -36,16 +35,21 @@ const createDirectoryObj = (dirPath: string): DirectoryObject => {
   };
 };
 
-const createFileObj = (filePath: string): FileObject => {
+const createFileObj = (filePath: string, sourceDir: string): FileObject => {
   return {
     name: path.basename(filePath, path.extname(filePath)),
     type: 'file',
     extension: path.extname(filePath),
-    prefix: getPathPrefix(filePath)
+    prefix: getPathPrefix(filePath, sourceDir)
   };
 };
 
-const readDirectory = (dirPath: string, parent: DirectoryObject | DirectoryObject[]): void => {
+const readDirectory = (
+  dirPath: string,
+  parent: DirectoryObject | DirectoryObject[],
+  sourceDir: string,
+  config: Config
+): void => {
   const dirObj = createDirectoryObj(dirPath);
 
   try {
@@ -54,10 +58,10 @@ const readDirectory = (dirPath: string, parent: DirectoryObject | DirectoryObjec
       const filePath = path.join(dirPath, file);
       const stats = fs.statSync(filePath);
       if (stats.isDirectory()) {
-        readDirectory(filePath, dirObj);
+        readDirectory(filePath, dirObj, sourceDir, config);
       } else if (stats.isFile()) {
-        const fileObj = createFileObj(filePath);
-        dirObj.children.push(createFileObj(filePath));
+        const fileObj = createFileObj(filePath, sourceDir);
+        dirObj.children.push(createFileObj(filePath, sourceDir));
         if (path.extname(file) === '.vue') {
           const saveDirectory = path.join(
             baseDir,
@@ -81,8 +85,8 @@ const readDirectory = (dirPath: string, parent: DirectoryObject | DirectoryObjec
   }
 };
 
-const saveIndexFile = (indexContent: DirectoryObject) => {
-  const indexOutputPath = path.join(baseDir, config.outputDir, 'src', 'generated', `index.ts`);
+const saveIndexFile = (indexContent: DirectoryObject, outputDir: string) => {
+  const indexOutputPath = path.join(baseDir, outputDir, 'src', 'generated', `index.ts`);
   const indexData = `const components = ${JSON.stringify(
     indexContent
   )}; \n export default components;`;
@@ -98,11 +102,14 @@ const saveIndexFile = (indexContent: DirectoryObject) => {
   }
 };
 
-export const extracFiles = () => {
+import { type Config } from './loadConfig';
+
+export const extracFiles = (config: Config) => {
+  const sourceDir = path.join(baseDir, config.sourceDir);
   const sourceStructure: DirectoryObject[] = [];
-  readDirectory(sourceDir, sourceStructure);
+  readDirectory(sourceDir, sourceStructure, sourceDir, config);
 
   if (sourceStructure.length) {
-    saveIndexFile(sourceStructure[0]);
+    saveIndexFile(sourceStructure[0], config.outputDir);
   }
 };

@@ -1,10 +1,12 @@
 import fs from 'fs';
 import fse from 'fs-extra';
 import path from 'path';
+import loadConfig from './loadConfig';
 
-function copyVueApp() {
-  const sourceDir = path.join(process.cwd(), "template");
-  const destinationDir = path.join(process.cwd(), 'docs');
+async function copyVueApp() {
+  const config = await loadConfig();
+  const sourceDir = path.join(process.cwd(), 'template');
+  const destinationDir = path.join(process.cwd(), config.outputDir);
 
   // Check if source directory exists
   if (!fs.existsSync(sourceDir)) {
@@ -26,11 +28,11 @@ function copyVueApp() {
     }
 
     // Copy each file from the source directory to the destination directory
-    files.forEach(file => {
+    files.forEach((file) => {
       const sourceFile = path.join(sourceDir, file);
       const destinationFile = path.join(destinationDir, file);
 
-      fse.copy(sourceFile, destinationFile, err => {
+      fse.copy(sourceFile, destinationFile, (err) => {
         if (err) {
           console.error(err);
           process.exit(1);

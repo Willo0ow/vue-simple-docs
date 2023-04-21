@@ -8,6 +8,6 @@ export default defineConfig({
   format: ['cjs', 'esm'],
   dts: false,
   minify: true,
-  target: 'node14',
+  target: 'node16',
   outDir: 'dist'
 });
