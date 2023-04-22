@@ -2,18 +2,19 @@ import prettier from 'prettier';
 import fs from 'fs';
 
 const prettierOptions = {
-  semi: true,
-  singleQuote: true,
   jsxBracketSameLine: false,
-  printWidth: 80,
+  semi: true,
   tabWidth: 2,
-  useTabs: false
+  singleQuote: true,
+  printWidth: 120,
+  useTabs: false,
+  bracketSpacing: true,
 };
 
 export const formatFile = (filePath: string, fileContent: string) => {
   const formattedContent = prettier.format(fileContent, {
     ...prettierOptions,
-    filepath: filePath
+    filepath: filePath,
   });
   fs.writeFileSync(filePath, formattedContent, 'utf8');
 };
