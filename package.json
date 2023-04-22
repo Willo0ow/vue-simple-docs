@@ -3,12 +3,10 @@
   "version": "1.0.0",
   "description": "Create your project's documentation in few simple steps.",
   "scripts": {
-    "clean": "rm -rf ./dist && mkdir -p dist",
-    "build": "npm run clean && tsup --minify --format cjs,esm",
-    "dev": "tsup --minify --format cjs,esm --watch",
-    "clean:generated": "node ./dist/deleteGeneratedData.js",
-    "generate:data": "npm run clean:generated && node ./dist/generateData.js",
-    "generate:docsApp": "node ./dist/index.js && npm run generate:data && cd docs && npm install"
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "generate:data": "node ./dist/deleteGeneratedData.js && node ./dist/generateData.js",
+    "generate": "node ./dist/index.js && npm run generate:data"
   },
   "keywords": [
     "vue",

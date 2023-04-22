@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from 'fs';
+import path from 'path';
 
 // Function to delete the contents of a directory
 export function deleteDirectoryContents(directory: string) {
@@ -17,4 +17,4 @@ export function deleteDirectoryContents(directory: string) {
       fs.unlinkSync(filePath);
     }
   });
-};
+}

@@ -3,3 +3,4 @@ dist
 docs
 template/src/generated
 .docsrc.json
+.DS_Store
