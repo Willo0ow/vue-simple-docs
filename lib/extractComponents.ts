@@ -12,6 +12,8 @@ import extractDataLikeTags, { LineTypes } from './extractDataLikeTags';
 import extractMethods from './extractMethods';
 import extractEmits from './extractEmits';
 
+import { formatFile } from './formatWithPrettier';
+
 function extractVueComponentElemets(documentationTagsSection: string) {
   const tagLines = formatDocumentationTagsLines(documentationTagsSection);
   const vuePropLines = tagLines.filter((line) => line.includes('@vueProp'));
@@ -25,7 +27,7 @@ function extractVueComponentElemets(documentationTagsSection: string) {
     emits: extractEmits(vueEmitLines),
     data: extractDataLikeTags(vueDataLines),
     computed: extractDataLikeTags(vueComputedLines, LineTypes.COMPUTED),
-    methods: extractMethods(vueMethodLines)
+    methods: extractMethods(vueMethodLines),
   };
 }
 const baseDir = cwd();
@@ -43,11 +45,11 @@ export const generateComponentData = (vueFile: string, saveDirectory: string) =>
       name: extractName(documentationTagsSection) || fileName,
       description: extractDescription(documentationTagsSection),
       ...scriptTags,
-      ...elements
+      ...elements,
     };
 
     const outputContent = `import type {ComponentDetails} from "@/types/generated";\n const componentDetails: ComponentDetails = ${JSON.stringify(
-      vueComponentDetails
+      vueComponentDetails,
     )}; \n export default componentDetails;`;
     const outputPath = saveDirectory;
 
@@ -56,6 +58,7 @@ export const generateComponentData = (vueFile: string, saveDirectory: string) =>
     }
 
     fs.writeFileSync(outputPath, outputContent);
+    formatFile(outputPath, outputContent);
     console.log(`Generated file for ${fileName}.`);
   } catch (e) {
     console.error(e);

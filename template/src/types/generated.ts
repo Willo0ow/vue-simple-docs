@@ -1,50 +1,50 @@
 export type ComponentDetails = {
-  name: string
-  description: string
-  lang: string
-  isSetup: string
-  props?: ComponentElement[]
-  emits?: ComponentEmit[]
-  data?: ComponentElement[]
-  computed?: ComponentElement[]
-  methods?: ComponentMethod[]
-}
+  name: string;
+  description: string;
+  lang: string;
+  isSetup: string;
+  props?: ComponentElement[];
+  emits?: ComponentEmit[];
+  data?: ComponentElement[];
+  computed?: ComponentElement[];
+  methods?: ComponentMethod[];
+};
 
 export type ComponentEmit = {
-  emittedValues?: Parameter[]
-  name: string
-  description?: string
-}
+  emittedValues?: Parameter[];
+  name: string;
+  description?: string;
+};
 export type ComponentElement = {
-  type?: string
-  name: string
-  defaultValue?: string | null
-  description?: string
-}
+  type?: string;
+  name: string;
+  defaultValue?: string | null;
+  description?: string;
+};
 
 export type ComponentMethod = {
-  returnType?: string
-  parameters?: Parameter[]
-  name: string
-  description?: string
-}
+  returnType?: string;
+  parameters?: Parameter[];
+  name: string;
+  description?: string;
+};
 
 type Parameter = {
-  name: string
-  type?: string
-}
+  name: string;
+  type?: string;
+};
 
 type FileObject = {
-  name: string
-  type: 'file'
-  extension: string
-  prefix: string
-}
+  name: string;
+  type: 'file';
+  extension: string;
+  prefix: string;
+};
 
 type DirectoryObject = {
-  name: string
-  type: 'folder'
-  children: FileSystemObject[]
-}
+  name: string;
+  type: 'folder';
+  children: FileSystemObject[];
+};
 
-export type FileSystemObject = DirectoryObject | FileObject
+export type FileSystemObject = DirectoryObject | FileObject;

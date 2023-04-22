@@ -5,7 +5,7 @@
         :to="{
           name: 'ComponentDetails',
           params: { name: item.name },
-          query: { prefix: item.prefix }
+          query: { prefix: item.prefix },
         }"
       >
         {{ item.name }}
@@ -13,11 +13,7 @@
     </v-list-item-title>
     <v-list-item-subtitle v-if="item?.children?.length">
       <v-list lines="two">
-        <tree-item
-          v-for="child in item.children"
-          :item="child"
-          :key="`${child.prefix}${child.name}`"
-        />
+        <tree-item v-for="child in item.children" :item="child" :key="`${child.prefix}${child.name}`" />
       </v-list>
     </v-list-item-subtitle>
   </v-list-item>

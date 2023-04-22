@@ -25,11 +25,11 @@
  */
 
 type TableHeader = {
-  text: string
-  value: string
-}
+  text: string;
+  value: string;
+};
 defineProps<{
-  items: { [key: string]: any }[]
-  headers: TableHeader[]
-}>()
+  items: { [key: string]: any }[];
+  headers: TableHeader[];
+}>();
 </script>

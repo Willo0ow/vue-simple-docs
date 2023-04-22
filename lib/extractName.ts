@@ -4,9 +4,9 @@ export enum FileTypes {
 }
 
 export default (documentationTagsSection: string, fileType = FileTypes.Component) => {
-  let nameRegex = /@vueComponent\s+([\w-]+)/
-  if (fileType === FileTypes.Composable) nameRegex = /@vueComposable\s+([\w-]+)/
+  let nameRegex = /@vueComponent\s+([\w-]+)/;
+  if (fileType === FileTypes.Composable) nameRegex = /@vueComposable\s+([\w-]+)/;
 
-  const nameMatch = nameRegex.exec(documentationTagsSection)
-  return nameMatch?.[1] || ''
-}
+  const nameMatch = nameRegex.exec(documentationTagsSection);
+  return nameMatch?.[1] || '';
+};

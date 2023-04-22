@@ -2,29 +2,29 @@
   <BaseTable :items="componentData" :headers="headers" />
 </template>
 <script setup lang="ts">
-import type { ComponentData } from 'docs/types'
-import BaseTable from '@/components/BaseTable.vue'
+import type { ComponentData } from 'docs/types';
+import BaseTable from '@/components/BaseTable.vue';
 
 defineProps<{
-  componentData: ComponentData[]
-}>()
+  componentData: ComponentData[];
+}>();
 
 const headers = [
   {
     text: 'Name',
-    value: 'name'
+    value: 'name',
   },
   {
     text: 'Type',
-    value: 'type'
+    value: 'type',
   },
   {
     text: 'Default Value',
-    value: 'defaultValue'
+    value: 'defaultValue',
   },
   {
     text: 'Description',
-    value: 'description'
-  }
-]
+    value: 'description',
+  },
+];
 </script>
