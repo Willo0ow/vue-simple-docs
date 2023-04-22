@@ -38,39 +38,39 @@
  * depending on the value of the add parameter.
  * If add is true, the quantity is increased by 1, otherwise it is decreased by 1.
  */
-import { ref, computed } from 'vue'
+import { ref, computed } from 'vue';
 
 const props = withDefaults(
   defineProps<{
-    title?: string
-    name: string
-    startSale?: string
-    stores: number
+    title?: string;
+    name: string;
+    startSale?: string;
+    stores: number;
   }>(),
   {
-    title: 'My product'
-  }
-)
+    title: 'My product',
+  },
+);
 
 defineEmits<{
-  (e: 'onBuy', amount: number): void
-}>()
+  (e: 'onBuy', amount: number): void;
+}>();
 
-const today = new Date()
-const quantity = ref(1)
+const today = new Date();
+const quantity = ref(1);
 const daysToSale = computed(() => {
   if (props.startSale) {
-    return (new Date(props.startSale).getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+    return (new Date(props.startSale).getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
   }
-  return 0
-})
+  return 0;
+});
 const changeQuantity = (add: boolean) => {
   if (add) {
-    quantity.value++
+    quantity.value++;
   } else {
-    quantity.value--
+    quantity.value--;
   }
-}
+};
 </script>
 <script></script>
 <style scoped></style>

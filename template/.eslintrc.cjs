@@ -7,12 +7,12 @@ module.exports = {
     'plugin:vue/vue3-essential',
     'eslint:recommended',
     '@vue/eslint-config-typescript',
-    '@vue/eslint-config-prettier/skip-formatting'
+    '@vue/eslint-config-prettier/skip-formatting',
   ],
   rules: {
-    'vue/html-closing-bracket-newline': 'off'
+    'vue/html-closing-bracket-newline': 'off',
   },
   parserOptions: {
-    ecmaVersion: 'latest'
-  }
+    ecmaVersion: 'latest',
+  },
 };

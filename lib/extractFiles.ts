@@ -31,7 +31,7 @@ const createDirectoryObj = (dirPath: string): DirectoryObject => {
   return {
     name: path.basename(dirPath),
     type: 'folder',
-    children: []
+    children: [],
   };
 };
 
@@ -40,7 +40,7 @@ const createFileObj = (filePath: string, sourceDir: string): FileObject => {
     name: path.basename(filePath, path.extname(filePath)),
     type: 'file',
     extension: path.extname(filePath),
-    prefix: getPathPrefix(filePath, sourceDir)
+    prefix: getPathPrefix(filePath, sourceDir),
   };
 };
 
@@ -48,7 +48,7 @@ const readDirectory = (
   dirPath: string,
   parent: DirectoryObject | DirectoryObject[],
   sourceDir: string,
-  config: Config
+  config: Config,
 ): void => {
   const dirObj = createDirectoryObj(dirPath);
 
@@ -68,7 +68,7 @@ const readDirectory = (
             config.outputDir,
             'src',
             'generated',
-            `${fileObj.prefix}${fileObj.name}.ts`
+            `${fileObj.prefix}${fileObj.name}.ts`,
           );
           generateComponentData(filePath, saveDirectory);
         }
@@ -87,9 +87,7 @@ const readDirectory = (
 
 const saveIndexFile = (indexContent: DirectoryObject, outputDir: string) => {
   const indexOutputPath = path.join(baseDir, outputDir, 'src', 'generated', `index.ts`);
-  const indexData = `const components = ${JSON.stringify(
-    indexContent
-  )}; \n export default components;`;
+  const indexData = `const components = ${JSON.stringify(indexContent)}; \n export default components;`;
 
   if (!fs.existsSync(path.dirname(indexOutputPath))) {
     fs.mkdirSync(path.dirname(indexOutputPath), { recursive: true });

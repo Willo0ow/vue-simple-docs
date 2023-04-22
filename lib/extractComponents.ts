@@ -27,7 +27,7 @@ function extractVueComponentElemets(documentationTagsSection: string) {
     emits: extractEmits(vueEmitLines),
     data: extractDataLikeTags(vueDataLines),
     computed: extractDataLikeTags(vueComputedLines, LineTypes.COMPUTED),
-    methods: extractMethods(vueMethodLines)
+    methods: extractMethods(vueMethodLines),
   };
 }
 const baseDir = cwd();
@@ -45,11 +45,11 @@ export const generateComponentData = (vueFile: string, saveDirectory: string) =>
       name: extractName(documentationTagsSection) || fileName,
       description: extractDescription(documentationTagsSection),
       ...scriptTags,
-      ...elements
+      ...elements,
     };
 
     const outputContent = `import type {ComponentDetails} from "@/types/generated";\n const componentDetails: ComponentDetails = ${JSON.stringify(
-      vueComponentDetails
+      vueComponentDetails,
     )}; \n export default componentDetails;`;
     const outputPath = saveDirectory;
 

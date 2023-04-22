@@ -9,7 +9,7 @@ export type Config = {
 
 const defaultConfig: Config = {
   sourceDir: 'template/src/compoennts',
-  outputDir: 'docs'
+  outputDir: 'docs',
 };
 
 const loadConfig = async (): Promise<Config> => {

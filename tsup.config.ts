@@ -9,5 +9,5 @@ export default defineConfig({
   dts: false,
   minify: true,
   target: 'node16',
-  outDir: 'dist'
+  outDir: 'dist',
 });

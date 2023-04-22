@@ -43,14 +43,14 @@
   </v-container>
 </template>
 <script lang="ts">
-import { ref, onMounted } from 'vue'
-import type { ComponentDetails } from 'docs/types'
+import { ref, onMounted } from 'vue';
+import type { ComponentDetails } from 'docs/types';
 
-import ComponentProps from '@/components/ComponentProps.vue'
-import ComponentEmits from '@/components/ComponentEmits.vue'
-import ComponentComputed from '@/components/ComponentComputed.vue'
-import ComponentData from '@/components/ComponentData.vue'
-import ComponentMethods from '@/components/ComponentMethods.vue'
+import ComponentProps from '@/components/ComponentProps.vue';
+import ComponentEmits from '@/components/ComponentEmits.vue';
+import ComponentComputed from '@/components/ComponentComputed.vue';
+import ComponentData from '@/components/ComponentData.vue';
+import ComponentMethods from '@/components/ComponentMethods.vue';
 
 export default {
   name: 'ComponentDetails',
@@ -59,35 +59,35 @@ export default {
     ComponentEmits,
     ComponentComputed,
     ComponentData,
-    ComponentMethods
+    ComponentMethods,
   },
   props: {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     prefix: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   setup(props) {
-    const componentDetails = ref<ComponentDetails | null>(null)
+    const componentDetails = ref<ComponentDetails | null>(null);
     onMounted(async () => {
       try {
-        const componentDetailsFile = await import(
-          `../generated/${props.prefix}${props.name}.ts`
-        ).then((module) => module?.default)
-        componentDetails.value = componentDetailsFile
+        const componentDetailsFile = await import(`../generated/${props.prefix}${props.name}.ts`).then(
+          (module) => module?.default,
+        );
+        componentDetails.value = componentDetailsFile;
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
-    })
+    });
     return {
-      componentDetails
-    }
-  }
-}
+      componentDetails,
+    };
+  },
+};
 </script>
 
 <style></style>
