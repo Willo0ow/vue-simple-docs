@@ -8,7 +8,7 @@ export type Config = {
 };
 
 const defaultConfig: Config = {
-  sourceDir: 'template/src/compoennts',
+  sourceDir: 'template/src/components',
   outputDir: 'docs',
 };
 
