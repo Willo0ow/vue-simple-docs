@@ -8,6 +8,10 @@ async function copyVueApp() {
   const sourceDir = path.join(process.cwd(), 'template');
   const destinationDir = path.join(process.cwd(), config.outputDir);
 
+  const typesSourceDir = path.join(process.cwd(), 'lib', 'types.ts');
+  const typesDestinationDir = path.join(process.cwd(), config.outputDir, 'src', 'types', 'generated.ts');
+  const srcDestinationDir = path.join(process.cwd(), config.outputDir, 'src');
+
   // Check if source directory exists
   if (!fs.existsSync(sourceDir)) {
     console.error(`Source directory ${sourceDir} does not exist`);
@@ -37,8 +41,17 @@ async function copyVueApp() {
           console.error(err);
           process.exit(1);
         }
+        console.log(`Coped ${sourceFile}.`);
 
-        console.log(`${sourceFile} was copied to ${destinationFile}`);
+        if (destinationFile === srcDestinationDir) {
+          fs.copyFile(typesSourceDir, typesDestinationDir, (err) => {
+            if (err) {
+              console.error(err);
+            } else {
+              console.log('Types copied successfully!');
+            }
+          });
+        }
       });
     });
   });
