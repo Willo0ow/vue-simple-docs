@@ -9,16 +9,16 @@
         <p>Script langs: {{ componentDetails.lang }}</p>
       </v-card-text>
     </v-sheet>
-    <v-sheet elevation="4" class="my-4" v-if="componentDetails?.props?.length">
+    <v-sheet elevation="4" class="my-4" v-if="componentDetails?.prop?.length">
       <v-card-title class="text-h6">Props</v-card-title>
       <v-card-text>
-        <ComponentProps :component-props="componentDetails?.props" />
+        <ComponentProps :component-props="componentDetails?.prop" />
       </v-card-text>
     </v-sheet>
-    <v-sheet elevation="4" class="my-4" v-if="componentDetails?.emits?.length">
+    <v-sheet elevation="4" class="my-4" v-if="componentDetails?.emit?.length">
       <v-card-title class="text-h6">Emits</v-card-title>
       <v-card-text>
-        <ComponentEmits :component-emits="componentDetails?.emits" />
+        <ComponentEmits :component-emits="componentDetails?.emit" />
       </v-card-text>
     </v-sheet>
     <v-sheet elevation="4" class="my-4" v-if="componentDetails?.data?.length">
@@ -34,17 +34,17 @@
         <ComponentComputed :component-computed="componentDetails?.computed" />
       </v-card-text>
     </v-sheet>
-    <v-sheet elevation="4" class="my-4" v-if="componentDetails?.methods?.length">
+    <v-sheet elevation="4" class="my-4" v-if="componentDetails?.method?.length">
       <v-card-title class="text-h6">Methods</v-card-title>
       <v-card-text>
-        <ComponentMethods :component-methods="componentDetails?.methods" />
+        <ComponentMethods :component-methods="componentDetails?.method" />
       </v-card-text>
     </v-sheet>
   </v-container>
 </template>
 <script lang="ts">
 import { ref, onMounted } from 'vue';
-import type { ComponentDetails } from 'docs/types';
+import type { FileDetails } from 'docs/types';
 
 import ComponentProps from '@/components/ComponentProps.vue';
 import ComponentEmits from '@/components/ComponentEmits.vue';
@@ -72,7 +72,7 @@ export default {
     },
   },
   setup(props) {
-    const componentDetails = ref<ComponentDetails | null>(null);
+    const componentDetails = ref<FileDetails | null>(null);
     onMounted(async () => {
       try {
         const componentDetailsFile = await import(`../generated/${props.prefix}${props.name}.ts`).then(

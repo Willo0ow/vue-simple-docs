@@ -1,5 +1,5 @@
 export default (fileContent: string) => {
-  const docTagsRegex = /\/\*\*(?:(.|\r|\n)*?@vue[A-Z](?:.|\r|\n)*?)\*\//gm;
+  const docTagsRegex = /\/\*\*(?:(.|\r|\n)*?@doc[A-Z](?:.|\r|\n)*?)\*\//gm;
   let docTagsSection = '';
   let docTagsMatch: RegExpExecArray | null;
   while ((docTagsMatch = docTagsRegex.exec(fileContent))) {

@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 /**
- * @vueProp {number} [param=0] - number of params
+ * @docProp {number} [param=0] - number of params
  */
 
 type TableHeader = {

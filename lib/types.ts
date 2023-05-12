@@ -1,33 +1,37 @@
-export type ComponentDetails = {
+export type FileDetails = {
   name: string;
-  description: string;
-  lang: string;
-  isSetup: string;
-  props?: ComponentElement[];
-  emits?: ComponentEmit[];
-  data?: ComponentElement[];
-  computed?: ComponentElement[];
-  methods?: ComponentMethod[];
+  file?: string;
+  description?: string;
+  prop?: VariableDetails[];
+  emit?: EmitDetails[];
+  data?: VariableDetails[];
+  computed?: VariableDetails[];
+  method?: MethodDetails[];
+  param?: VariableDetails[];
+  return?: VariableDetails[];
+  [key: string]: ElementDetails[] | string | undefined;
 };
 
-export type ComponentEmit = {
-  emittedValues?: Parameter[];
+export type EmitDetails = {
+  params?: Parameter[];
   name: string;
   description?: string;
 };
-export type ComponentElement = {
+export type VariableDetails = {
   type?: string;
   name: string;
   defaultValue?: string | null;
   description?: string;
 };
 
-export type ComponentMethod = {
-  returnType?: string;
-  parameters?: Parameter[];
+export type MethodDetails = {
+  type?: string;
+  params?: Parameter[];
   name: string;
   description?: string;
 };
+
+type ElementDetails = MethodDetails & VariableDetails;
 
 type Parameter = {
   name: string;

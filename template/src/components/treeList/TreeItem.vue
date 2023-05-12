@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { type FileSystemObject } from '@/types/generated';
 /**
- * @vueProp {number} [param=0] - number of params
+ * @docProp {number} [param=0] - number of params
  */
 
 defineProps<{

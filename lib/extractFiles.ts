@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { cwd } from 'process';
-import { generateComponentData } from './extractComponents';
+import { generateFileDetails } from './extractFileDetails';
 import { formatFile } from './formatWithPrettier';
 
 const baseDir = cwd();
@@ -9,6 +9,7 @@ const baseDir = cwd();
 interface FileObject {
   name: string;
   type: 'file';
+  fileType?: string;
   extension: string;
   prefix: string;
 }
@@ -35,10 +36,11 @@ const createDirectoryObj = (dirPath: string): DirectoryObject => {
   };
 };
 
-const createFileObj = (filePath: string, sourceDir: string): FileObject => {
+const createFileObj = (filePath: string, sourceDir: string, fileType?: string): FileObject => {
   return {
     name: path.basename(filePath, path.extname(filePath)),
     type: 'file',
+    fileType,
     extension: path.extname(filePath),
     prefix: getPathPrefix(filePath, sourceDir),
   };
@@ -61,16 +63,22 @@ const readDirectory = (
         readDirectory(filePath, dirObj, sourceDir, config);
       } else if (stats.isFile()) {
         const fileObj = createFileObj(filePath, sourceDir);
-        dirObj.children.push(createFileObj(filePath, sourceDir));
-        if (path.extname(file) === '.vue') {
-          const saveDirectory = path.join(
-            baseDir,
-            config.outputDir,
-            'src',
-            'generated',
-            `${fileObj.prefix}${fileObj.name}.ts`,
-          );
-          generateComponentData(filePath, saveDirectory);
+        const saveDirectory = path.join(
+          baseDir,
+          config.outputDir,
+          'src',
+          'generated',
+          `${fileObj.prefix}${fileObj.name}.ts`,
+        );
+        const fileType: string | undefined = generateFileDetails(filePath, saveDirectory);
+
+        if (typeof fileType === 'string') {
+          if (fileType) {
+            fileObj.fileType = fileType;
+          } else {
+            fileObj.fileType = fileObj.extension === '.vue' ? 'Component' : 'Module';
+          }
+          dirObj.children.push(fileObj);
         }
       }
     });
@@ -86,8 +94,9 @@ const readDirectory = (
 };
 
 const saveIndexFile = (indexContent: DirectoryObject, outputDir: string) => {
+  const content = { ...indexContent, children: filterNotEmptyDirectories(indexContent) };
   const indexOutputPath = path.join(baseDir, outputDir, 'src', 'generated', `index.ts`);
-  const indexData = `const components = ${JSON.stringify(indexContent)}; \n export default components;`;
+  const indexData = `const files = ${JSON.stringify(content)}; \n export default files;`;
 
   if (!fs.existsSync(path.dirname(indexOutputPath))) {
     fs.mkdirSync(path.dirname(indexOutputPath), { recursive: true });
@@ -99,6 +108,20 @@ const saveIndexFile = (indexContent: DirectoryObject, outputDir: string) => {
     console.error(err);
   }
 };
+
+function filterNotEmptyDirectories(sourceContent: DirectoryObject) {
+  return sourceContent.children.reduce((childrenWithDocs, child) => {
+    if (child.type === 'folder') {
+      if (child.children.length > 0) {
+        childrenWithDocs.push(child);
+        child.children = filterNotEmptyDirectories(child);
+      }
+    } else {
+      childrenWithDocs.push(child);
+    }
+    return childrenWithDocs;
+  }, []);
+}
 
 import { type Config } from './loadConfig';
 
