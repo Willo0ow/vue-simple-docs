@@ -41,7 +41,7 @@ async function copyVueApp() {
           console.error(err);
           process.exit(1);
         }
-        console.log(`Coped ${sourceFile}.`);
+        console.log(`Copied ${sourceFile}.`);
 
         if (destinationFile === srcDestinationDir) {
           fs.copyFile(typesSourceDir, typesDestinationDir, (err) => {
