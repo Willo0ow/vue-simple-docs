@@ -1,13 +1,7 @@
 <template>
   <v-list-item>
     <v-list-item-title>
-      <router-link
-        :to="{
-          name: 'ComponentDetails',
-          params: { name: item.name },
-          query: { prefix: item.prefix },
-        }"
-      >
+      <router-link :to="itemRoute" @click="props.item.children ? updateFolderContent(props.item.children) : null">
         {{ item.name }}
       </router-link>
     </v-list-item-title>
@@ -20,12 +14,30 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { type FileSystemObject } from '@/types/generated';
+import { useDirChildrenStore } from '@/store/dirChildren';
 /**
  * @docProp {number} [param=0] - number of params
  */
 
-defineProps<{
+const props = defineProps<{
   item: FileSystemObject;
 }>();
+
+const itemRoute = computed(() => {
+  if (props.item.type === 'folder') {
+    return {
+      name: 'FolderView',
+      params: { name: props.item.name },
+    };
+  }
+  return {
+    name: 'ComponentDetails',
+    params: { name: props.item.name },
+    query: { prefix: props.item.prefix },
+  };
+});
+console.log(props.item.children);
+const { updateFolderContent } = useDirChildrenStore();
 </script>

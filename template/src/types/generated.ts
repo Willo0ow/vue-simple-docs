@@ -37,3 +37,19 @@ type Parameter = {
   name: string;
   type?: string;
 };
+
+export interface FileObject {
+  name: string;
+  type: 'file';
+  fileType?: string;
+  extension: string;
+  prefix: string;
+}
+
+export interface DirectoryObject {
+  name: string;
+  type: 'folder';
+  children: FileSystemObject[];
+}
+
+export type FileSystemObject = DirectoryObject | FileObject;
