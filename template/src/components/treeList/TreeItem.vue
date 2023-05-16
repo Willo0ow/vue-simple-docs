@@ -1,7 +1,7 @@
 <template>
   <v-list-item>
     <v-list-item-title>
-      <router-link :to="itemRoute" @click="props.item.children ? updateFolderContent(props.item.children) : null">
+      <router-link :to="itemRoute" @click="props.item.children ? updateDirContent(props.item.children) : null">
         {{ item.name }}
       </router-link>
     </v-list-item-title>
@@ -39,5 +39,5 @@ const itemRoute = computed(() => {
   };
 });
 console.log(props.item.children);
-const { updateFolderContent } = useDirChildrenStore();
+const { updateDirContent } = useDirChildrenStore();
 </script>

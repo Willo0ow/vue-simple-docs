@@ -5,9 +5,9 @@ import type { DirectoryObject } from '@/types/generated';
 export const useDirChildrenStore = defineStore('dirChildren', () => {
   const dirContent = ref<DirectoryObject[]>();
 
-  const updateFolderContent = (newContent: DirectoryObject[]) => {
+  const updateDirContent = (newContent: DirectoryObject[]) => {
     dirContent.value = newContent;
   };
 
-  return { dirContent, updateFolderContent };
+  return { dirContent, updateDirContent };
 });
