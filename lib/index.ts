@@ -5,10 +5,13 @@ import loadConfig from './loadConfig';
 
 async function copyVueApp() {
   const config = await loadConfig();
-  const sourceDir = path.join(process.cwd(), 'template');
+  const packageDir = path.dirname(__filename);
+  const sourceDir = path.join(packageDir, '..', 'template');
+
   const destinationDir = path.join(process.cwd(), config.outputDir);
 
-  const typesSourceDir = path.join(process.cwd(), 'lib', 'types.ts');
+  const typesSourceDir = path.join(packageDir, '..', 'lib', 'types.ts');
+
   const typesDestinationDir = path.join(process.cwd(), config.outputDir, 'src', 'types', 'generated.ts');
   const srcDestinationDir = path.join(process.cwd(), config.outputDir, 'src');
 
