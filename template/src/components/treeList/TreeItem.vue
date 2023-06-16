@@ -38,6 +38,6 @@ const itemRoute = computed(() => {
     query: { prefix: props.item.prefix },
   };
 });
-console.log(props.item.children);
+
 const { updateDirContent } = useDirChildrenStore();
 </script>
