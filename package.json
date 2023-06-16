@@ -10,6 +10,11 @@
     "format": "npx prettier --write .",
     "prepare": "husky install"
   },
+  "bin": {
+    "delete-generated": "./dist/deleteGeneratedData.js",
+    "generate-data": "./dist/generateData.js",
+    "generate": "./dist/index.js"
+  },
   "keywords": [
     "vue",
     "documentation",
@@ -27,7 +32,7 @@
     },
     "./package.json": "./package.json"
   },
-  "types": "./dist/cjs/types/index.d.ts",
+  "types": "./dist/lib/types.ts",
   "files": [
     "dist",
     "lib",
