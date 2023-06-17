@@ -20,6 +20,12 @@ const router = createRouter({
       component: () => import('../views/ComponentDetails.vue'),
       props: (route) => ({ prefix: route.query.prefix, name: route.params.name }),
     },
+    {
+      path: '/file/:name',
+      name: 'FolderView',
+      component: () => import('../views/FolderView.vue'),
+      props: (route) => ({ name: route.params.name }),
+    },
   ],
 });
 
