@@ -1,0 +1,31 @@
+{
+  "name": "simple-dev-docs",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview",
+    "build:scripts": "tsup",
+    "generate:data": "node ./core/deleteGeneratedData.js && node ./core/generateData.js"
+  },
+  "dependencies": {
+    "cosmiconfig": "^8.2.0",
+    "fs-extra": "^11.1.1",
+    "pinia": "^2.1.4",
+    "tsup": "^7.0.0",
+    "vue": "^3.2.47",
+    "vue-router": "^4.2.2",
+    "vuetify": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.3.1",
+    "@vitejs/plugin-vue": "^4.1.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.9",
+    "vue-tsc": "^1.4.2",
+    "husky": "^8.0.3",
+    "prettier": "^2.8.8"
+  }
+}
