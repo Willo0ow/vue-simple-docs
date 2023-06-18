@@ -37,3 +37,25 @@ type Parameter = {
   name: string;
   type?: string;
 };
+
+export type FileObject = {
+  name: string;
+  type: 'file';
+  fileType?: string;
+  extension: string;
+  prefix: string;
+};
+
+export type DirectoryObject = {
+  name: string;
+  type: 'folder';
+  children: FileSystemObject[];
+};
+
+export type FileSystemObject = DirectoryObject | FileObject;
+
+export type SearchItem = {
+  name: string;
+  view: 'FolderView' | 'FileView';
+  prefix: string;
+};
