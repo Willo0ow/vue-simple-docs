@@ -6,21 +6,7 @@ import { formatFile } from './formatWithPrettier';
 
 const baseDir = cwd();
 
-interface FileObject {
-  name: string;
-  type: 'file';
-  fileType?: string;
-  extension: string;
-  prefix: string;
-}
-
-interface DirectoryObject {
-  name: string;
-  type: 'folder';
-  children: FileSystemObject[];
-}
-
-type FileSystemObject = DirectoryObject | FileObject;
+import { DirectoryObject, FileObject, SearchItem } from './types';
 
 const getPathPrefix = (elementDir: string, sourceDir: string) => {
   const relativePath = elementDir.replace(sourceDir, '');
@@ -94,9 +80,13 @@ const readDirectory = (
 };
 
 const saveIndexFile = (indexContent: DirectoryObject, outputDir: string) => {
+  const searchList: SearchItem[] = [];
+  filterSearchItems(indexContent, searchList);
   const content = { ...indexContent, children: filterNotEmptyDirectories(indexContent) };
   const indexOutputPath = path.join(baseDir, outputDir, 'src', 'generated', `index.ts`);
-  const indexData = `const files = ${JSON.stringify(content)}; \n export default files;`;
+  const indexData = `const files = ${JSON.stringify(
+    content,
+  )}; \n export default files; \n export const searchItems = ${JSON.stringify(searchList)};`;
 
   if (!fs.existsSync(path.dirname(indexOutputPath))) {
     fs.mkdirSync(path.dirname(indexOutputPath), { recursive: true });
@@ -108,6 +98,16 @@ const saveIndexFile = (indexContent: DirectoryObject, outputDir: string) => {
     console.error(err);
   }
 };
+
+function filterSearchItems(sourceContent: DirectoryObject, searchItemsList: SearchItem[]) {
+  return sourceContent.children.forEach((child) => {
+    if (child.type === 'folder') {
+      filterSearchItems(child, searchItemsList);
+    } else {
+      searchItemsList.push({ name: child.name, view: 'FileView', prefix: child.prefix });
+    }
+  });
+}
 
 function filterNotEmptyDirectories(sourceContent: DirectoryObject) {
   return sourceContent.children.reduce((childrenWithDocs, child) => {

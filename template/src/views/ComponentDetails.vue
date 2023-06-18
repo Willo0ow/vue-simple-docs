@@ -44,7 +44,7 @@
 </template>
 <script lang="ts">
 import { ref, onMounted } from 'vue';
-import type { FileDetails } from 'docs/types';
+import type { FileDetails } from '@/types/generated';
 
 import ComponentProps from '@/components/ComponentProps.vue';
 import ComponentEmits from '@/components/ComponentEmits.vue';

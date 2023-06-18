@@ -15,13 +15,13 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue'),
     },
     {
-      path: '/component/:name',
-      name: 'ComponentDetails',
+      path: '/file/:name',
+      name: 'FileView',
       component: () => import('../views/ComponentDetails.vue'),
       props: (route) => ({ prefix: route.query.prefix, name: route.params.name }),
     },
     {
-      path: '/file/:name',
+      path: '/folder/:name',
       name: 'FolderView',
       component: () => import('../views/FolderView.vue'),
       props: (route) => ({ name: route.params.name }),

@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { type FileSystemObject } from '@/types/generated';
+import type { FileSystemObject } from '@/types/generated';
 import { useDirChildrenStore } from '@/store/dirChildren';
 /**
  * @docProp {number} [param=0] - number of params
@@ -33,7 +33,7 @@ const itemRoute = computed(() => {
     };
   }
   return {
-    name: 'ComponentDetails',
+    name: 'FileView',
     params: { name: props.item.name },
     query: { prefix: props.item.prefix },
   };
